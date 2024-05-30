@@ -4,6 +4,11 @@ module.exports = {
   extends: ["expo", "eslint:recommended"],
   plugins: ["prettier"],
   rules: {
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        endOfLine: "auto",
+      },
+    ],
   },
 };
