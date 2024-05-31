@@ -1,0 +1,17 @@
+import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
+import { colors } from "./theme";
+
+export const StackScreenWithSearchBar: NativeStackNavigationOptions = {
+  headerLargeTitle: true,
+  headerLargeStyle: {
+    backgroundColor: colors.background,
+  },
+  headerLargeTitleStyle: {
+    color: colors.text,
+  },
+  headerTintColor: colors.text,
+  headerStyle: {
+    backgroundColor: "black", // Set the header background to black
+  },
+  headerShadowVisible: true,
+};

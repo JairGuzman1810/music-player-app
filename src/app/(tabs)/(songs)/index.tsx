@@ -1,11 +1,12 @@
-import { View, Text } from "react-native";
+import { Platform, View } from "react-native";
 import React from "react";
 import { defaultStyles } from "@/styles";
+import Header from "@/components/header";
 
 const SongsScreen = () => {
   return (
     <View style={defaultStyles.container}>
-      <Text style={defaultStyles.text}>Songs screen</Text>
+      {Platform.OS === "android" && <Header text="Songs" />}
     </View>
   );
 };
