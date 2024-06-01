@@ -13,10 +13,10 @@ const Header = ({ text }: HeaderProps) => {
 // Styles
 const styles = StyleSheet.create({
   iosText: {
-    fontSize: 28,
+    fontSize: 30,
+    fontFamily: "Montserrat-Bold",
     color: colors.text, // Default text color, can be customized or use colors from your theme
-    fontWeight: "600", // iOS typically uses a semi-bold font weight
-    padding: 10,
+    paddingLeft: 30,
     paddingTop: 40,
   },
 });

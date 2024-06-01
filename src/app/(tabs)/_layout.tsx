@@ -38,6 +38,10 @@ const TabsNavigation = () => {
         name="favorites"
         options={{
           title: "Favorites",
+          tabBarLabelStyle: {
+            fontFamily: "Montserrat-Medium",
+            fontSize: 12,
+          },
           tabBarIcon: ({ color }) => (
             <FontAwesome name="heart" size={20} color={color} />
           ),
@@ -47,6 +51,10 @@ const TabsNavigation = () => {
         name="playlists"
         options={{
           title: "Playlists",
+          tabBarLabelStyle: {
+            fontFamily: "Montserrat-Medium",
+            fontSize: 12,
+          },
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
               name="playlist-music"
@@ -60,6 +68,10 @@ const TabsNavigation = () => {
         name="(songs)"
         options={{
           title: "Songs",
+          tabBarLabelStyle: {
+            fontFamily: "Montserrat-Medium",
+            fontSize: 12,
+          },
           tabBarIcon: ({ color }) => (
             <FontAwesome name="music" size={20} color={color} />
           ),
@@ -69,6 +81,10 @@ const TabsNavigation = () => {
         name="artists"
         options={{
           title: "Artists",
+          tabBarLabelStyle: {
+            fontFamily: "Montserrat-Medium",
+            fontSize: 12,
+          },
           tabBarIcon: ({ color }) => (
             <FontAwesome6 name="users-rectangle" size={20} color={color} />
           ),
