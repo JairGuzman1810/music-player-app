@@ -1,7 +1,7 @@
 import { defaultStyles } from "@/styles";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 
 const App = () => {
@@ -15,10 +15,10 @@ const App = () => {
     return null;
   }
   return (
-    <SafeAreaView style={defaultStyles.container}>
+    <SafeAreaProvider style={defaultStyles.container}>
       <RootNavigation />
       <StatusBar style={"light"} />
-    </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 

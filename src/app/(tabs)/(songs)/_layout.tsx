@@ -15,7 +15,7 @@ const SongsScreenLayout = () => {
   };
 
   return (
-    <View style={defaultStyles.container}>
+    <View style={[defaultStyles.container]}>
       <Stack>
         <Stack.Screen
           name="index"
