@@ -10,8 +10,7 @@ export const StackScreenWithSearchBar: NativeStackNavigationOptions = {
     color: colors.text,
   },
   headerTintColor: colors.text,
-  headerStyle: {
-    backgroundColor: "black", // Set the header background to black
-  },
-  headerShadowVisible: true,
+  headerTransparent: true,
+  headerBlurEffect: "prominent",
+  headerShadowVisible: false,
 };

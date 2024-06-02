@@ -2,50 +2,56 @@
 
 import { colors, fontSize } from "@/constants/theme";
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { unknownTrackImageUri } from "@/constants/images";
 import { defaultStyles } from "@/styles";
-import { TrackItem } from "@/types/types";
+import { Track, useActiveTrack } from "react-native-track-player";
 
 // Define the type for the item prop
 
 // Define the props type for the TrackListItem component
 type TrackListItemProps = {
-  item: TrackItem;
+  item: Track;
+  onTrackSelected: (track: Track) => void;
 };
 
-const TrackListItem = ({ item }: TrackListItemProps) => {
-  const isActiveTrack = true;
+const TrackListItem = ({
+  item: track,
+  onTrackSelected: handleTrackSelected,
+}: TrackListItemProps) => {
+  const isActiveTrack = useActiveTrack()?.url === track.url;
   return (
-    <View style={styles.container}>
-      <Image
-        source={{ uri: item.artwork }}
-        placeholder={{ uri: unknownTrackImageUri }}
-        style={[styles.image, { opacity: isActiveTrack ? 1 : 0.6 }]}
-        contentFit="cover"
-        transition={1000}
-      />
-      <View style={styles.textContainer}>
-        <Text
-          style={[
-            styles.title,
-            { color: isActiveTrack ? colors.text : colors.primary },
-          ]}
-          numberOfLines={1}
-        >
-          {item.title}
-        </Text>
-        {item.artist && <Text style={styles.artist}>{item.artist}</Text>}
+    <TouchableHighlight onPress={() => handleTrackSelected(track)}>
+      <View style={styles.container}>
+        <Image
+          source={{ uri: track.artwork }}
+          placeholder={{ uri: unknownTrackImageUri }}
+          style={[styles.image, { opacity: isActiveTrack ? 0.6 : 1 }]}
+          contentFit="cover"
+          transition={1000}
+        />
+        <View style={styles.textContainer}>
+          <Text
+            style={[
+              styles.title,
+              { color: isActiveTrack ? colors.primary : colors.text },
+            ]}
+            numberOfLines={1}
+          >
+            {track.title}
+          </Text>
+          {track.artist && <Text style={styles.artist}>{track.artist}</Text>}
+        </View>
+        <MaterialCommunityIcons
+          name="dots-horizontal"
+          size={24}
+          color={colors.icon}
+          style={styles.icon}
+        />
       </View>
-      <MaterialCommunityIcons
-        name="dots-horizontal"
-        size={24}
-        color={colors.icon}
-        style={styles.icon}
-      />
-    </View>
+    </TouchableHighlight>
   );
 };
 

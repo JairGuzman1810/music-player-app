@@ -4,9 +4,10 @@ import library from "@/assets/data/library.json";
 import TrackListItem from "./TrackListItem";
 import { utilsStyles } from "@/styles";
 import { useMemo } from "react";
-import { TrackItem } from "@/types/types";
 import NotFound from "./NotFound";
 import { screenPadding } from "@/constants/theme";
+import { trackTitleFilter } from "@/helpers/filter";
+import { Track } from "react-native-track-player";
 
 const ItemDivider = () => (
   <View
@@ -19,16 +20,17 @@ type TrackListProps = {
 };
 
 const TrackList = ({ searchQuery }: TrackListProps) => {
-  const filteredLibrary = useMemo(() => {
-    return library.filter((track: TrackItem) =>
-      // eslint-disable-next-line prettier/prettier
-      track.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+  const filteredTracks = useMemo(() => {
+    return library.filter(trackTitleFilter(searchQuery));
   }, [searchQuery]);
 
-  return filteredLibrary.length ? (
+  const handleTrackSelected = (track: Track) => {
+    console.log(track);
+  };
+
+  return filteredTracks.length ? (
     <FlatList
-      data={filteredLibrary}
+      data={filteredTracks}
       ListFooterComponent={ItemDivider}
       ItemSeparatorComponent={ItemDivider}
       contentContainerStyle={{
@@ -36,7 +38,9 @@ const TrackList = ({ searchQuery }: TrackListProps) => {
         paddingBottom: 128,
         paddingHorizontal: screenPadding.horizontal,
       }}
-      renderItem={({ item }) => <TrackListItem item={item} />}
+      renderItem={({ item }) => (
+        <TrackListItem item={item} onTrackSelected={handleTrackSelected} />
+      )}
     />
   ) : (
     <NotFound title="No Songs Found" />

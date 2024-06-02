@@ -1,7 +1,7 @@
 // /components/CustomSearchBar.tsx
 
 import { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { colors } from "@/constants/theme";
 import { SearchBar } from "@rneui/themed";
 
@@ -21,22 +21,19 @@ const CustomSearchBar = ({
     onChangeSearch(query);
   };
   return (
-    <View style={styles.container}>
-      <SearchBar
-        placeholder={placeholder}
-        onChangeText={handleSearchChange}
-        value={searchQuery}
-        selectionColor={colors.primary}
-        containerStyle={styles.searchContainer}
-        inputContainerStyle={styles.searchInputContainer}
-        inputStyle={styles.searchInput}
-      />
-    </View>
+    <SearchBar
+      placeholder={placeholder}
+      onChangeText={handleSearchChange}
+      value={searchQuery}
+      selectionColor={colors.primary}
+      containerStyle={styles.searchContainer}
+      inputContainerStyle={styles.searchInputContainer}
+      inputStyle={styles.searchInput}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  container: {},
   searchContainer: {
     backgroundColor: colors.background,
     borderBottomColor: "transparent",
@@ -51,6 +48,7 @@ const styles = StyleSheet.create({
   searchInput: {
     fontSize: 16,
     fontFamily: "Montserrat-Regular",
+    color: colors.text,
   },
 });
 

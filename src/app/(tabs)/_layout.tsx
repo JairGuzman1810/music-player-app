@@ -29,6 +29,8 @@ const TabsNavigation = () => {
               overflow: "hidden",
               borderTopRightRadius: 20,
               borderTopLeftRadius: 20,
+              flex: 1,
+              justifyContent: "center",
             }}
           />
         ),

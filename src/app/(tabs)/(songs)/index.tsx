@@ -1,5 +1,5 @@
 import { Platform, View } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { defaultStyles } from "@/styles";
 import Header from "@/components/header";
 import TrackList from "@/components/TrackList";
@@ -13,13 +13,16 @@ const SongsScreen = () => {
     searchBarOptions: { placeholder },
   });
 
+  useEffect(() => {
+    if (Platform.OS === "ios" && iosSearch) {
+      setSearchQuery(iosSearch);
+    }
+  }, [iosSearch]);
+
   const handleSearchChange = (text: string) => {
     setSearchQuery(text);
   };
 
-  const query = Platform.OS === "ios" ? iosSearch : searchQuery;
-
-  console.log(query);
   return (
     <View style={defaultStyles.container}>
       {Platform.OS === "android" && <Header text="Songs" />}
@@ -30,7 +33,7 @@ const SongsScreen = () => {
         />
       )}
 
-      <TrackList searchQuery={query} />
+      <TrackList searchQuery={searchQuery} />
     </View>
   );
 };

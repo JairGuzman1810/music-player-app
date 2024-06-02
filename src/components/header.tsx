@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat-Bold",
     color: colors.text, // Default text color, can be customized or use colors from your theme
     paddingLeft: 30,
-    paddingTop: 40,
+    paddingTop: 80,
   },
 });
 
