@@ -9,15 +9,15 @@ const events = [
 export const useLogTrackPlayerState = () => {
   useTrackPlayerEvents(events, async (event) => {
     if (event.type === Event.PlaybackError) {
-      console.warn("An error occured: " + event);
+      console.log("An error occured: " + event);
     }
 
     if (event.type === Event.PlaybackState) {
-      console.warn("Play state: " + event);
+      console.log("Play state: " + event);
     }
 
     if (event.type === Event.PlaybackActiveTrackChanged) {
-      console.warn("Play state: " + event.index);
+      console.log("Play state: " + event.index);
     }
   });
 };

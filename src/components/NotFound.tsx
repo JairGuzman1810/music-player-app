@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    color: colors.text,
+    color: colors.textMuted,
+    paddingTop: 40,
     fontFamily: "Montserrat-Regular",
   },
 });

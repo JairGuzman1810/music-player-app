@@ -7,7 +7,7 @@ import { useMemo } from "react";
 import NotFound from "./NotFound";
 import { screenPadding } from "@/constants/theme";
 import { trackTitleFilter } from "@/helpers/filter";
-import { Track } from "react-native-track-player";
+import TrackPlayer, { Track } from "react-native-track-player";
 
 const ItemDivider = () => (
   <View
@@ -24,14 +24,16 @@ const TrackList = ({ searchQuery }: TrackListProps) => {
     return library.filter(trackTitleFilter(searchQuery));
   }, [searchQuery]);
 
-  const handleTrackSelected = (track: Track) => {
-    console.log(track);
+  const handleTrackSelected = async (track: Track) => {
+    await TrackPlayer.load(track);
+    await TrackPlayer.play();
   };
 
-  return filteredTracks.length ? (
+  return (
     <FlatList
       data={filteredTracks}
-      ListFooterComponent={ItemDivider}
+      ListFooterComponent={filteredTracks.length > 0 ? <ItemDivider /> : null}
+      ListEmptyComponent={<NotFound title="No Songs Found" />}
       ItemSeparatorComponent={ItemDivider}
       contentContainerStyle={{
         gap: 5,
@@ -42,8 +44,6 @@ const TrackList = ({ searchQuery }: TrackListProps) => {
         <TrackListItem item={item} onTrackSelected={handleTrackSelected} />
       )}
     />
-  ) : (
-    <NotFound title="No Songs Found" />
   );
 };
 
