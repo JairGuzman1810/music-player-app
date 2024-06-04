@@ -26,6 +26,7 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="music-player-app"/>
         <data android:scheme="com.jairguzman18.musicplayerapp"/>
+        <data android:scheme="exp+music-player-app"/>
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>

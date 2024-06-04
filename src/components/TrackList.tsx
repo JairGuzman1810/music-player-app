@@ -8,6 +8,7 @@ import NotFound from "./NotFound";
 import { screenPadding } from "@/constants/theme";
 import { trackTitleFilter } from "@/helpers/filter";
 import TrackPlayer, { Track } from "react-native-track-player";
+import { unknownTrackImageUri } from "@/constants/images";
 
 const ItemDivider = () => (
   <View
@@ -33,7 +34,9 @@ const TrackList = ({ searchQuery }: TrackListProps) => {
     <FlatList
       data={filteredTracks}
       ListFooterComponent={filteredTracks.length > 0 ? <ItemDivider /> : null}
-      ListEmptyComponent={<NotFound title="No Songs Found" />}
+      ListEmptyComponent={
+        <NotFound title="No Songs Found" image={unknownTrackImageUri} />
+      }
       ItemSeparatorComponent={ItemDivider}
       contentContainerStyle={{
         gap: 5,

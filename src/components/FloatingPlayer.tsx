@@ -18,8 +18,6 @@ const FloatingPlayer = ({ style }: ViewProps) => {
 
   const displayeTrack = activeTrack ?? lastActiveTrack;
 
-  console.log(displayeTrack);
-
   if (!displayeTrack) return null;
 
   //const displayeTrack = activeTrack;

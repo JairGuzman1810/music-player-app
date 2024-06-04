@@ -7,7 +7,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { unknownTrackImageUri } from "@/constants/images";
 import { defaultStyles } from "@/styles";
-import { Track, useActiveTrack } from "react-native-track-player";
+import { Track, useActiveTrack, useIsPlaying } from "react-native-track-player";
+import LoaderKit from "react-native-loader-kit";
 
 // Define the type for the item prop
 
@@ -21,6 +22,7 @@ const TrackListItem = ({
   item: track,
   onTrackSelected: handleTrackSelected,
 }: TrackListItemProps) => {
+  const { playing } = useIsPlaying();
   const isActiveTrack = useActiveTrack()?.url === track.url;
   return (
     <TouchableHighlight onPress={() => handleTrackSelected(track)}>
@@ -32,6 +34,21 @@ const TrackListItem = ({
           contentFit="cover"
           transition={1000}
         />
+        {isActiveTrack &&
+          (playing ? (
+            <LoaderKit
+              style={styles.trackPlayerIconIndicator}
+              name={"LineScaleParty"}
+              color={colors.icon}
+            />
+          ) : (
+            <MaterialCommunityIcons
+              style={styles.trackPausedIndicator}
+              name="play"
+              size={28}
+              color={colors.icon}
+            />
+          ))}
         <View style={styles.textContainer}>
           <Text
             style={[
@@ -85,6 +102,18 @@ const styles = StyleSheet.create({
   icon: {
     marginLeft: "auto", // Push the icon to the right
     marginRight: 10,
+  },
+  trackPlayerIconIndicator: {
+    position: "absolute",
+    top: 16,
+    left: 16,
+    width: 20,
+    height: 20,
+  },
+  trackPausedIndicator: {
+    position: "absolute",
+    top: 10,
+    left: 12,
   },
 });
 
