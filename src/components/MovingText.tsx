@@ -71,6 +71,8 @@ export const MovingText = ({
       {text}
     </Animated.Text>
   ) : (
-    <Text style={style}>{text}</Text>
+    <Text numberOfLines={1} style={style}>
+      {text}
+    </Text>
   );
 };

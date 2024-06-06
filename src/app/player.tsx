@@ -1,17 +1,20 @@
 import { MovingText } from "@/components/MovingText";
 import { unknownTrackImageUri } from "@/constants/images";
-import { colors, screenPadding } from "@/constants/theme";
+import { colors, fontSize, screenPadding } from "@/constants/theme";
 import { defaultStyles } from "@/styles";
 import { Image } from "expo-image";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, Text } from "react-native";
 import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useActiveTrack } from "react-native-track-player";
+import { FontAwesome } from "@expo/vector-icons";
 
 const PlayerScreen = () => {
   const activeTrack = useActiveTrack();
   const { top, bottom } = useSafeAreaInsets();
+  const isFavorite = false;
 
+  const toggleFavorite = () => {};
   if (!activeTrack) {
     return (
       <View style={[defaultStyles.container, { justifyContent: "center" }]}>
@@ -22,18 +25,20 @@ const PlayerScreen = () => {
   return (
     <View style={styles.overlayContainer}>
       <DismissPlayerSymbol />
-      <View style={{ flex: 1, marginTop: top + 70, marginBottom: bottom }}>
+      <View style={{ flex: 1, marginTop: top + 70, marginBottom: bottom + 20 }}>
         {/* Artwork image */}
         <View style={styles.artworkImageContainer}>
           <Image
             source={{ uri: activeTrack.artwork || unknownTrackImageUri }}
             style={styles.artworkImage}
+            placeholder={{ uri: unknownTrackImageUri }}
             contentFit="cover"
             transition={1000}
             priority={"high"}
           />
         </View>
-        {/* Artwork image */}
+        {/* Track container data */}
+
         <View style={{ flex: 1 }}>
           <View style={{ marginTop: "auto" }}>
             <View style={{ height: 60 }}>
@@ -44,6 +49,7 @@ const PlayerScreen = () => {
                   alignItems: "center",
                 }}
               >
+                {/* Artwork title */}
                 <View style={styles.trackTitleContainer}>
                   <MovingText
                     text={activeTrack.title || ""}
@@ -51,7 +57,24 @@ const PlayerScreen = () => {
                     style={styles.trackTitleText}
                   />
                 </View>
+                {/* Favorite button */}
+                <FontAwesome
+                  name={isFavorite ? "heart" : "heart-o"}
+                  size={24}
+                  color={isFavorite ? colors.primary : colors.icon}
+                  style={{ marginHorizontal: 14 }}
+                  onPress={toggleFavorite}
+                />
               </View>
+              {/* Track  artists */}
+              {activeTrack.artist && (
+                <Text
+                  numberOfLines={1}
+                  style={[styles.trackArtistText, { marginTop: 6 }]}
+                >
+                  {activeTrack.artist}
+                </Text>
+              )}
             </View>
           </View>
         </View>
@@ -122,5 +145,12 @@ const styles = StyleSheet.create({
     ...defaultStyles.text,
     fontSize: 22,
     fontFamily: "Montserrat-Medium",
+  },
+  trackArtistText: {
+    ...defaultStyles.text,
+    fontSize: fontSize.base,
+    fontFamily: "Montserrat-Medium",
+    opacity: 0.8,
+    maxWidth: "90%",
   },
 });
