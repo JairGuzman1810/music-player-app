@@ -1,5 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { useEffect } from "react";
+/* eslint-disable prettier/prettier */
+import React, { useEffect } from "react";
+import { Text } from "react-native";
 import Animated, {
   Easing,
   StyleProps,
@@ -54,13 +56,13 @@ export const MovingText = ({
     };
   });
 
-  return (
+  return shouldAnimate ? (
     <Animated.Text
       numberOfLines={1}
       style={[
         style,
         animatedStyle,
-        shouldAnimate && {
+        {
           width: 9999, // preventing the ellipsis from appearing
           paddingLeft: 16, // avoid the initial character being barely visible
         },
@@ -68,5 +70,7 @@ export const MovingText = ({
     >
       {text}
     </Animated.Text>
+  ) : (
+    <Text style={style}>{text}</Text>
   );
 };
