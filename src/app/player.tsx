@@ -1,13 +1,15 @@
 import { MovingText } from "@/components/MovingText";
 import { unknownTrackImageUri } from "@/constants/images";
 import { colors, fontSize, screenPadding } from "@/constants/theme";
-import { defaultStyles } from "@/styles";
+import { defaultStyles, utilsStyles } from "@/styles";
 import { Image } from "expo-image";
 import { ActivityIndicator, Text } from "react-native";
 import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useActiveTrack } from "react-native-track-player";
 import { FontAwesome } from "@expo/vector-icons";
+import { PlayerControls } from "@/components/PlayerControls";
+import PlayerProgressBar from "@/components/PlayerProgressBar";
 
 const PlayerScreen = () => {
   const activeTrack = useActiveTrack();
@@ -76,6 +78,15 @@ const PlayerScreen = () => {
                 </Text>
               )}
             </View>
+
+            <PlayerProgressBar style={{ marginTop: 32 }} />
+
+            <PlayerControls style={{ marginTop: 40 }} />
+          </View>
+          {/* <PlayerVolumenBar style={{ marginTop: "auto", marginBottom: 30 }} /> */}
+
+          <View style={utilsStyles.centeredRow}>
+            {/* <PlayerRepeatToggle size={30} style={{maringBottom: 6}} /> */}
           </View>
         </View>
       </View>
@@ -144,7 +155,7 @@ const styles = StyleSheet.create({
   trackTitleText: {
     ...defaultStyles.text,
     fontSize: 22,
-    fontFamily: "Montserrat-Medium",
+    fontFamily: "Montserrat-Bold",
   },
   trackArtistText: {
     ...defaultStyles.text,

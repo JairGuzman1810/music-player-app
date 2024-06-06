@@ -1,15 +1,29 @@
-import { TouchableOpacity, View, ViewStyle } from "react-native";
+import { StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
 import TrackPlayer, { useIsPlaying } from "react-native-track-player";
-import { FontAwesome6, FontAwesome } from "@expo/vector-icons";
+import { FontAwesome6 } from "@expo/vector-icons";
 import { colors } from "@/constants/theme";
 
-/*type PlayerControlsProps = {
+type PlayerControlsProps = {
   style?: ViewStyle;
-};*/
+};
 
 type PlayerButtonProps = {
   style?: ViewStyle;
   iconSize?: number;
+};
+
+export const PlayerControls = ({ style }: PlayerControlsProps) => {
+  return (
+    <View style={[styles.container, style]}>
+      <View style={styles.row}>
+        <SkipToPreviousButton />
+
+        <PlayPauseButton iconSize={30} />
+
+        <SkipToNextButton />
+      </View>
+    </View>
+  );
 };
 
 export const PlayPauseButton = ({ style, iconSize }: PlayerButtonProps) => {
@@ -37,7 +51,7 @@ export const SkipToNextButton = ({ iconSize = 30 }: PlayerButtonProps) => {
       activeOpacity={0.7}
       onPress={() => TrackPlayer.skipToNext()}
     >
-      <FontAwesome name="step-forward" size={iconSize} color={colors.text} />
+      <FontAwesome6 name="forward" size={iconSize} color={colors.text} />
     </TouchableOpacity>
   );
 };
@@ -48,7 +62,19 @@ export const SkipToPreviousButton = ({ iconSize = 30 }: PlayerButtonProps) => {
       activeOpacity={0.7}
       onPress={() => TrackPlayer.skipToPrevious()}
     >
-      <FontAwesome name="step-backward" size={iconSize} color={colors.text} />
+      <FontAwesome6 name="backward" size={iconSize} color={colors.text} />
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 20,
+    alignItems: "center",
+  },
+});

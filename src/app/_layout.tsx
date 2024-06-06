@@ -6,6 +6,7 @@ import { useFonts } from "expo-font";
 import useSetupTrackPlayer from "@/hooks/useSetupTrackPlayer";
 import { useState, useCallback } from "react";
 import { useLogTrackPlayerState } from "@/hooks/useLogTrackPlayerState";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -41,8 +42,10 @@ const App = () => {
       style={defaultStyles.container}
       onLayout={onLayoutRootView}
     >
-      <RootNavigation />
-      <StatusBar style={"light"} />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <RootNavigation />
+        <StatusBar style={"light"} />
+      </GestureHandlerRootView>
     </SafeAreaProvider>
   );
 };
