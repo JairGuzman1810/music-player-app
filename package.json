@@ -10,7 +10,6 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@react-native-community/slider": "^4.5.2",
     "@react-navigation/native-stack": "^6.9.26",
     "@rneui/base": "^4.0.0-rc.8",
     "@rneui/themed": "^4.0.0-rc.8",
@@ -27,6 +26,7 @@
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
     "react-native": "0.74.1",
+    "react-native-awesome-slider": "^2.5.3",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-image-colors": "^2.4.0",
     "react-native-loader-kit": "^2.0.8",
