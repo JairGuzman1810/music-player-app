@@ -37,12 +37,13 @@ const PlayerProgressBar = ({ style }: ViewProps) => {
         progress={progress}
         minimumValue={min}
         maximumValue={max}
-        containerStyle={utilsStyles.slider}
-        thumbWidth={0}
+        containerStyle={[utilsStyles.slider, { height: 3 }]}
         renderBubble={() => null}
+        thumbWidth={12}
         theme={{
           minimumTrackTintColor: colors.minimumTrackTintColor,
           maximumTrackTintColor: colors.maximumTrackTintColor,
+          cacheTrackTintColor: colors.primary,
         }}
         onSlidingStart={() => setIsSliding(true)}
         onValueChange={(value) => {

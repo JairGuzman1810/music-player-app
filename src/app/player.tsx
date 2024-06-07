@@ -10,6 +10,7 @@ import { useActiveTrack } from "react-native-track-player";
 import { FontAwesome } from "@expo/vector-icons";
 import { PlayerControls } from "@/components/PlayerControls";
 import PlayerProgressBar from "@/components/PlayerProgressBar";
+import PlayerVolumeBar from "@/components/PlayerVolumeBar";
 
 const PlayerScreen = () => {
   const activeTrack = useActiveTrack();
@@ -83,7 +84,7 @@ const PlayerScreen = () => {
 
             <PlayerControls style={{ marginTop: 40 }} />
           </View>
-          {/* <PlayerVolumenBar style={{ marginTop: "auto", marginBottom: 30 }} /> */}
+          <PlayerVolumeBar style={{ marginTop: "auto", marginBottom: 30 }} />
 
           <View style={utilsStyles.centeredRow}>
             {/* <PlayerRepeatToggle size={30} style={{maringBottom: 6}} /> */}
