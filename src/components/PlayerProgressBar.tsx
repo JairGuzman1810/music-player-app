@@ -1,47 +1,56 @@
+/* eslint-disable prettier/prettier */
+import React, { useState, useEffect, useMemo } from "react";
 import { colors, fontSize } from "@/constants/theme";
 import { formatSecondsToMinutes } from "@/helpers/miscellaneous";
 import { defaultStyles, utilsStyles } from "@/styles";
 import Slider from "@react-native-community/slider";
 import { StyleSheet, Text, View, ViewProps } from "react-native";
-import { useSharedValue } from "react-native-reanimated";
 import TrackPlayer, { useProgress } from "react-native-track-player";
 
 const PlayerProgressBar = ({ style }: ViewProps) => {
   const { duration, position } = useProgress(250);
 
-  const isSliding = useSharedValue(false);
-  const progress = useSharedValue(0);
-  const min = useSharedValue(0);
-  const max = useSharedValue(1);
-  const trackElapsedTime = formatSecondsToMinutes(position);
-  const trackRemaingTime = formatSecondsToMinutes(duration - position);
+  const [isSliding, setIsSliding] = useState(false);
+  const [progress, setProgress] = useState(0);
 
-  if (!isSliding.value) {
-    progress.value = duration > 0 ? position / duration : 0;
-  }
+  useEffect(() => {
+    if (!isSliding) {
+      setProgress(duration > 0 ? position / duration : 0);
+    }
+  }, [isSliding, position, duration]);
+
+  const min = 0;
+  const max = 1;
+
+  const trackElapsedTime = useMemo(
+    () => formatSecondsToMinutes(position),
+    [position]
+  );
+  const trackRemainingTime = useMemo(
+    () => formatSecondsToMinutes(duration - position),
+    [duration, position]
+  );
+
   return (
     <View style={style}>
       <Slider
         style={utilsStyles.slider}
-        value={progress.value}
-        onSlidingStart={() => (isSliding.value = true)}
+        value={progress}
+        onSlidingStart={() => setIsSliding(true)}
         minimumTrackTintColor={colors.minimumTrackTintColor}
         maximumTrackTintColor={colors.maximumTrackTintColor}
-        minimumValue={min.value}
-        maximumValue={max.value}
+        minimumValue={min}
+        maximumValue={max}
         thumbTintColor={colors.primary}
-        onValueChange={async (value) =>
-          await TrackPlayer.seekTo(value * duration)
-        }
+        onValueChange={(value) => setProgress(value)}
         onSlidingComplete={async (value) => {
-          if (!isSliding.value) return;
-          isSliding.value = false;
+          setIsSliding(false);
           await TrackPlayer.seekTo(value * duration);
         }}
       />
       <View style={styles.timeRow}>
         <Text style={styles.timeText}>{trackElapsedTime}</Text>
-        <Text style={styles.timeText}>-{trackRemaingTime}</Text>
+        <Text style={styles.timeText}>-{trackRemainingTime}</Text>
       </View>
     </View>
   );
