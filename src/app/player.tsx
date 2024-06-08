@@ -11,6 +11,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { PlayerControls } from "@/components/PlayerControls";
 import PlayerProgressBar from "@/components/PlayerProgressBar";
 import PlayerVolumeBar from "@/components/PlayerVolumeBar";
+import PlayerRepeatToggle from "@/components/PlayerRepeatToggle";
 
 const PlayerScreen = () => {
   const activeTrack = useActiveTrack();
@@ -86,8 +87,8 @@ const PlayerScreen = () => {
           </View>
           <PlayerVolumeBar style={{ marginTop: "auto", marginBottom: 30 }} />
 
-          <View style={utilsStyles.centeredRow}>
-            {/* <PlayerRepeatToggle size={30} style={{maringBottom: 6}} /> */}
+          <View style={[utilsStyles.centeredRow, { marginBottom: 6 }]}>
+            <PlayerRepeatToggle size={30} />
           </View>
         </View>
       </View>

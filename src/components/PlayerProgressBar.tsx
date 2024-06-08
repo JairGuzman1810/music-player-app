@@ -22,14 +22,18 @@ const PlayerProgressBar = ({ style }: ViewProps) => {
     }
   }, [isSliding, position, duration, progress]);
 
-  const trackElapsedTime = useMemo(
-    () => formatSecondsToMinutes(position),
-    [position]
-  );
-  const trackRemainingTime = useMemo(
-    () => formatSecondsToMinutes(duration - position),
-    [duration, position]
-  );
+  const trackElapsedTime = useMemo(() => {
+    const validPosition = isNaN(position) || position < 0 ? 0 : position;
+    return formatSecondsToMinutes(validPosition);
+  }, [position]);
+
+  const trackRemainingTime = useMemo(() => {
+    const validDuration = isNaN(duration) || duration < 0 ? 0 : duration;
+    const validPosition = isNaN(position) || position < 0 ? 0 : position;
+
+    const remainingTime = validDuration - validPosition;
+    return formatSecondsToMinutes(remainingTime);
+  }, [duration, position]);
 
   return (
     <View style={style}>
@@ -52,6 +56,7 @@ const PlayerProgressBar = ({ style }: ViewProps) => {
         onSlidingComplete={async (value) => {
           setIsSliding(false);
           await TrackPlayer.seekTo(value * duration);
+          console.log(value * duration);
         }}
       />
       <View style={styles.timeRow}>
