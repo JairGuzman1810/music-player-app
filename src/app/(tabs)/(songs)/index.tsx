@@ -5,6 +5,7 @@ import Header from "@/components/header";
 import TrackList from "@/components/TrackList";
 import useNavigationSearch from "@/hooks/useNavigationSearch";
 import CustomSearchBar from "@/components/SearchBar";
+import library from "@/assets/data/library.json";
 
 const SongsScreen = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -28,12 +29,12 @@ const SongsScreen = () => {
       {Platform.OS === "android" && <Header text="Songs" />}
       {Platform.OS === "android" && (
         <CustomSearchBar
-          placeholder="Find in songs"
+          placeholder={placeholder}
           onChangeSearch={handleSearchChange}
         />
       )}
 
-      <TrackList searchQuery={searchQuery} />
+      <TrackList searchQuery={searchQuery} tracks={library} />
     </View>
   );
 };

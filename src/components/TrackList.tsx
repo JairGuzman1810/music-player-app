@@ -1,6 +1,5 @@
 import { FlatList, View } from "react-native";
 
-import library from "@/assets/data/library.json";
 import TrackListItem from "./TrackListItem";
 import { utilsStyles } from "@/styles";
 import { useMemo } from "react";
@@ -9,6 +8,7 @@ import { screenPadding } from "@/constants/theme";
 import { trackTitleFilter } from "@/helpers/filter";
 import TrackPlayer, { Track } from "react-native-track-player";
 import { unknownTrackImageUri } from "@/constants/images";
+import { TrackItem } from "@/helpers/types";
 
 const ItemDivider = () => (
   <View
@@ -18,12 +18,13 @@ const ItemDivider = () => (
 
 type TrackListProps = {
   searchQuery: string;
+  tracks: TrackItem[];
 };
 
-const TrackList = ({ searchQuery }: TrackListProps) => {
+const TrackList = ({ searchQuery, tracks }: TrackListProps) => {
   const filteredTracks = useMemo(() => {
-    return library.filter(trackTitleFilter(searchQuery));
-  }, [searchQuery]);
+    return tracks.filter(trackTitleFilter(searchQuery));
+  }, [searchQuery, tracks]);
 
   const handleTrackSelected = async (track: Track) => {
     await TrackPlayer.load(track);
