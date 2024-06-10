@@ -12,9 +12,34 @@ import { PlayerControls } from "@/components/PlayerControls";
 import PlayerProgressBar from "@/components/PlayerProgressBar";
 import PlayerVolumeBar from "@/components/PlayerVolumeBar";
 import PlayerRepeatToggle from "@/components/PlayerRepeatToggle";
+import usePlayerBackground from "@/hooks/usePlayerBackground";
+import { LinearGradient } from "expo-linear-gradient";
+import {
+  AndroidImageColors,
+  IOSImageColors,
+} from "react-native-image-colors/build/types";
 
 const PlayerScreen = () => {
   const activeTrack = useActiveTrack();
+  const { imageColors } = usePlayerBackground(
+    // eslint-disable-next-line prettier/prettier
+    activeTrack?.artwork ?? unknownTrackImageUri
+  );
+
+  const defaultColors = [colors.background, colors.primary];
+
+  const backgroundColors = imageColors
+    ? imageColors.platform === "android"
+      ? [
+          (imageColors as AndroidImageColors).dominant,
+          (imageColors as AndroidImageColors).average,
+        ]
+      : [
+          (imageColors as IOSImageColors).background,
+          (imageColors as IOSImageColors).primary,
+        ]
+    : defaultColors;
+
   const { top, bottom } = useSafeAreaInsets();
   const isFavorite = false;
 
@@ -27,72 +52,76 @@ const PlayerScreen = () => {
     );
   }
   return (
-    <View style={styles.overlayContainer}>
-      <DismissPlayerSymbol />
-      <View style={{ flex: 1, marginTop: top + 70, marginBottom: bottom + 20 }}>
-        {/* Artwork image */}
-        <View style={styles.artworkImageContainer}>
-          <Image
-            source={{ uri: activeTrack.artwork || unknownTrackImageUri }}
-            style={styles.artworkImage}
-            placeholder={{ uri: unknownTrackImageUri }}
-            contentFit="cover"
-            transition={1000}
-            priority={"high"}
-          />
-        </View>
-        {/* Track container data */}
+    <LinearGradient style={{ flex: 1 }} colors={backgroundColors}>
+      <View style={styles.overlayContainer}>
+        <DismissPlayerSymbol />
+        <View
+          style={{ flex: 1, marginTop: top + 70, marginBottom: bottom + 20 }}
+        >
+          {/* Artwork image */}
+          <View style={styles.artworkImageContainer}>
+            <Image
+              source={{ uri: activeTrack.artwork || unknownTrackImageUri }}
+              style={styles.artworkImage}
+              placeholder={{ uri: unknownTrackImageUri }}
+              contentFit="cover"
+              transition={1000}
+              priority={"high"}
+            />
+          </View>
+          {/* Track container data */}
 
-        <View style={{ flex: 1 }}>
-          <View style={{ marginTop: "auto" }}>
-            <View style={{ height: 60 }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                {/* Artwork title */}
-                <View style={styles.trackTitleContainer}>
-                  <MovingText
-                    text={activeTrack.title || ""}
-                    animationThreshold={25}
-                    style={styles.trackTitleText}
+          <View style={{ flex: 1 }}>
+            <View style={{ marginTop: "auto" }}>
+              <View style={{ height: 60 }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  {/* Artwork title */}
+                  <View style={styles.trackTitleContainer}>
+                    <MovingText
+                      text={activeTrack.title || ""}
+                      animationThreshold={25}
+                      style={styles.trackTitleText}
+                    />
+                  </View>
+                  {/* Favorite button */}
+                  <FontAwesome
+                    name={isFavorite ? "heart" : "heart-o"}
+                    size={24}
+                    color={isFavorite ? colors.primary : colors.icon}
+                    style={{ marginHorizontal: 14 }}
+                    onPress={toggleFavorite}
                   />
                 </View>
-                {/* Favorite button */}
-                <FontAwesome
-                  name={isFavorite ? "heart" : "heart-o"}
-                  size={24}
-                  color={isFavorite ? colors.primary : colors.icon}
-                  style={{ marginHorizontal: 14 }}
-                  onPress={toggleFavorite}
-                />
+                {/* Track  artists */}
+                {activeTrack.artist && (
+                  <Text
+                    numberOfLines={1}
+                    style={[styles.trackArtistText, { marginTop: 6 }]}
+                  >
+                    {activeTrack.artist}
+                  </Text>
+                )}
               </View>
-              {/* Track  artists */}
-              {activeTrack.artist && (
-                <Text
-                  numberOfLines={1}
-                  style={[styles.trackArtistText, { marginTop: 6 }]}
-                >
-                  {activeTrack.artist}
-                </Text>
-              )}
+
+              <PlayerProgressBar style={{ marginTop: 32 }} />
+
+              <PlayerControls style={{ marginTop: 40 }} />
             </View>
+            <PlayerVolumeBar style={{ marginTop: "auto", marginBottom: 30 }} />
 
-            <PlayerProgressBar style={{ marginTop: 32 }} />
-
-            <PlayerControls style={{ marginTop: 40 }} />
-          </View>
-          <PlayerVolumeBar style={{ marginTop: "auto", marginBottom: 30 }} />
-
-          <View style={[utilsStyles.centeredRow, { marginBottom: 6 }]}>
-            <PlayerRepeatToggle size={30} />
+            <View style={[utilsStyles.centeredRow, { marginBottom: 6 }]}>
+              <PlayerRepeatToggle size={30} />
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 
