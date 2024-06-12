@@ -8,7 +8,6 @@ import { screenPadding } from "@/constants/theme";
 import { trackTitleFilter } from "@/helpers/filter";
 import TrackPlayer, { Track } from "react-native-track-player";
 import { unknownTrackImageUri } from "@/constants/images";
-import { TrackItem } from "@/helpers/types";
 
 const ItemDivider = () => (
   <View
@@ -18,7 +17,7 @@ const ItemDivider = () => (
 
 type TrackListProps = {
   searchQuery: string;
-  tracks: TrackItem[];
+  tracks: Track[];
 };
 
 const TrackList = ({ searchQuery, tracks }: TrackListProps) => {

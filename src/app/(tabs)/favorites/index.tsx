@@ -4,8 +4,9 @@ import { defaultStyles } from "@/styles";
 import Header from "@/components/header";
 import useNavigationSearch from "@/hooks/useNavigationSearch";
 import CustomSearchBar from "@/components/SearchBar";
-import library from "@/assets/data/library.json";
 import TrackList from "@/components/TrackList";
+import { useFavorites } from "@/store/library";
+import { trackTitleFilter } from "@/helpers/filter";
 
 const FavoritesScreen = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -24,9 +25,12 @@ const FavoritesScreen = () => {
     setSearchQuery(text);
   };
 
-  const favoritesTracks = useMemo(() => {
-    return library.filter((track) => track.rating === 1);
-  }, []);
+  const favoritesTracks = useFavorites().favorites;
+
+  const filteredFavoritesTracks = useMemo(() => {
+    if (!searchQuery) return favoritesTracks;
+    return favoritesTracks.filter(trackTitleFilter(searchQuery));
+  }, [favoritesTracks, searchQuery]);
   return (
     <View style={defaultStyles.container}>
       {Platform.OS === "android" && <Header text="Favorites" />}
@@ -36,7 +40,7 @@ const FavoritesScreen = () => {
           onChangeSearch={handleSearchChange}
         />
       )}
-      <TrackList searchQuery={searchQuery} tracks={favoritesTracks} />
+      <TrackList searchQuery={searchQuery} tracks={filteredFavoritesTracks} />
     </View>
   );
 };
