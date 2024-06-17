@@ -7,6 +7,7 @@ import CustomSearchBar from "@/components/SearchBar";
 import TrackList from "@/components/TrackList";
 import { useFavorites } from "@/store/library";
 import { trackTitleFilter } from "@/helpers/filter";
+import { generateTrackSongListId } from "@/helpers/miscellaneous";
 
 const FavoritesScreen = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -40,7 +41,11 @@ const FavoritesScreen = () => {
           onChangeSearch={handleSearchChange}
         />
       )}
-      <TrackList searchQuery={searchQuery} tracks={filteredFavoritesTracks} />
+      <TrackList
+        id={generateTrackSongListId("favorites", searchQuery)}
+        searchQuery={searchQuery}
+        tracks={filteredFavoritesTracks}
+      />
     </View>
   );
 };

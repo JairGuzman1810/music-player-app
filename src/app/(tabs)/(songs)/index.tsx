@@ -6,6 +6,7 @@ import TrackList from "@/components/TrackList";
 import useNavigationSearch from "@/hooks/useNavigationSearch";
 import CustomSearchBar from "@/components/SearchBar";
 import { useTrack } from "@/store/library";
+import { generateTrackSongListId } from "@/helpers/miscellaneous";
 
 const SongsScreen = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -36,7 +37,11 @@ const SongsScreen = () => {
         />
       )}
 
-      <TrackList searchQuery={searchQuery} tracks={tracks} />
+      <TrackList
+        id={generateTrackSongListId("songs", searchQuery)}
+        searchQuery={searchQuery}
+        tracks={tracks}
+      />
     </View>
   );
 };
