@@ -56,7 +56,6 @@ const PlayerProgressBar = ({ style }: ViewProps) => {
         onSlidingComplete={async (value) => {
           setIsSliding(false);
           await TrackPlayer.seekTo(value * duration);
-          console.log(value * duration);
         }}
       />
       <View style={styles.timeRow}>
