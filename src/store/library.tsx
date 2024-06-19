@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { TrackWithPlayList } from "@/helpers/types";
+import { Artist, TrackWithPlayList } from "@/helpers/types";
 import { Track } from "react-native-track-player";
 import { create } from "zustand";
 import library from "@/assets/data/library.json";
@@ -29,3 +29,20 @@ export const useFavorites = () => {
 
   return { favorites, toggleTrackFavorite };
 };
+
+export const useArtists = () =>
+  useLibraryStore((state) => {
+    return state.tracks.reduce((acc, track) => {
+      const existingArtist = acc.find((artist) => artist.name === track.artist);
+
+      if (existingArtist) {
+        existingArtist.tracks.push(track);
+      } else {
+        acc.push({
+          name: track.artist || "Unknown",
+          tracks: [track],
+        });
+      }
+      return acc; // ensure to return the accumulator
+    }, [] as Artist[]);
+  });
