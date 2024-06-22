@@ -1,7 +1,6 @@
 import React from "react";
 import { Tabs } from "expo-router";
 import { colors, fontSize } from "@/constants/theme";
-import { BlurView } from "expo-blur";
 import { Platform, StyleSheet } from "react-native";
 import {
   FontAwesome,
@@ -9,6 +8,7 @@ import {
   FontAwesome6,
 } from "@expo/vector-icons";
 import FloatingPlayer from "@/components/FloatingPlayer";
+import { BlurView } from "expo-blur";
 
 const TabsNavigation = () => {
   return (
