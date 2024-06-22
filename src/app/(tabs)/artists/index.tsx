@@ -68,7 +68,7 @@ const ArtistsScreen = () => {
         }} // Styling for the content container
         renderItem={({ item: artists }) => {
           return (
-            <Link href={`/artist/${artists.name}`} asChild>
+            <Link href={`/artists/${artists.name}`} asChild>
               <TouchableHighlight activeOpacity={0.8}>
                 <View style={styles.artistsItemContainer}>
                   <View>

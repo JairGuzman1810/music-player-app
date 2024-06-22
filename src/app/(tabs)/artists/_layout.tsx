@@ -3,6 +3,7 @@ import React from "react";
 import { defaultStyles } from "@/styles";
 import { Stack } from "expo-router";
 import { StackScreenWithSearchBar } from "@/constants/layout";
+import { colors } from "@/constants/theme";
 
 const iosHeaderOptions = {
   ...StackScreenWithSearchBar,
@@ -22,6 +23,18 @@ const ArtistsScreenLayout = () => {
           options={
             Platform.OS === "ios" ? iosHeaderOptions : androidHeaderOptions
           }
+        />
+        <Stack.Screen
+          name="[name]"
+          options={{
+            ...(Platform.OS === "ios"
+              ? iosHeaderOptions
+              : androidHeaderOptions),
+            headerTitle: "Artist",
+            headerBackVisible: true,
+            headerStyle: { backgroundColor: colors.background },
+            headerTintColor: colors.primary,
+          }}
         />
       </Stack>
     </View>

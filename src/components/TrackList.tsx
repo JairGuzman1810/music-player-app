@@ -21,7 +21,7 @@ const ItemDivider = () => (
 
 // Define the type for the props of the TrackList component
 type TrackListProps = {
-  searchQuery: string; // The search query to filter tracks
+  searchQuery?: string; // The search query to filter tracks
   tracks: Track[]; // The array of tracks to display
   id: string; // The id of the current queue
   hideQueueControls?: boolean;
@@ -41,7 +41,11 @@ const TrackList = ({
   const { activeQueueId, setActiveQueueId } = useQueue();
 
   // Filter tracks based on the search query
+
   const filteredTracks = useMemo(() => {
+    if (!searchQuery) {
+      return tracks;
+    }
     return tracks.filter(trackTitleFilter(searchQuery));
   }, [searchQuery, tracks]);
 
