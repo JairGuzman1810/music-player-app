@@ -51,7 +51,7 @@ export const useArtists = () =>
 // Custom hook that retrieves playlists and addToPlayList function from a library store
 export const usePlaylist = () => {
   // Retrieve playlist data from the library store using a reducer function
-  const playlist = useLibraryStore((state) => {
+  const playlists = useLibraryStore((state) => {
     // Reduce tracks in the state to generate playlists
     return state.tracks.reduce((acc, track) => {
       // Iterate through each playlist name associated with the current track
@@ -81,5 +81,5 @@ export const usePlaylist = () => {
   const addToPlayList = useLibraryStore((state) => state.addToPlayList);
 
   // Return playlist data and addToPlayList function for external use
-  return { playlist, addToPlayList };
+  return { playlists, addToPlayList };
 };

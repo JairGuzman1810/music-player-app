@@ -62,6 +62,7 @@ const ArtistsScreen = () => {
         } // Component to display if no tracks are found
         ItemSeparatorComponent={ItemDivider} // Separator component between items
         contentContainerStyle={{
+          paddingTop: 10,
           gap: 5,
           paddingBottom: 128,
           paddingHorizontal: screenPadding.horizontal,

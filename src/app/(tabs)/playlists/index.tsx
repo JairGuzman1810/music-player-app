@@ -18,7 +18,7 @@ const PlaylistsScreen = () => {
     searchBarOptions: { placeholder },
   });
 
-  const { playlist } = usePlaylist();
+  const { playlists } = usePlaylist();
 
   useEffect(() => {
     if (Platform.OS === "ios" && iosSearch) {
@@ -31,8 +31,8 @@ const PlaylistsScreen = () => {
   };
 
   const filteredTracks = useMemo(() => {
-    return playlist.filter(playlistNameFilter(searchQuery));
-  }, [playlist, searchQuery]);
+    return playlists.filter(playlistNameFilter(searchQuery));
+  }, [playlists, searchQuery]);
 
   const handlePlaylistPress = (playlist: PlayList) => {
     router.push(`/(tabs)/playlists/${playlist.name}`);
