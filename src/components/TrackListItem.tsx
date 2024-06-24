@@ -1,18 +1,16 @@
 // TrackListItem.tsx
 
-import { colors, fontSize } from "@/constants/theme";
-import React from "react";
-import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
+import React, { useState, useRef } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { unknownTrackImageUri } from "@/constants/images";
+import { colors, fontSize } from "@/constants/theme";
 import { defaultStyles } from "@/styles";
 import { Track, useActiveTrack, useIsPlaying } from "react-native-track-player";
 import LoaderKit from "react-native-loader-kit";
+import TrackOptionsModal from "./TrackOptionsModal"; // Import the new component
 
-// Define the type for the item prop
-
-// Define the props type for the TrackListItem component
 type TrackListItemProps = {
   item: Track;
   onTrackSelected: (track: Track) => void;
@@ -22,10 +20,30 @@ const TrackListItem = ({
   item: track,
   onTrackSelected: handleTrackSelected,
 }: TrackListItemProps) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+  const iconRef = useRef<TouchableOpacity>(null);
+
   const { playing } = useIsPlaying();
   const isActiveTrack = useActiveTrack()?.url === track.url;
+
+  const handleIconPress = () => {
+    iconRef.current?.measure((fx, fy, width, height, px, py) => {
+      const isFavorite = track.rating === 1;
+      setModalPosition({
+        top: py + height - 150,
+        left: px - (isFavorite ? 215 : 158),
+      });
+      setModalVisible(true);
+    });
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
   return (
-    <TouchableHighlight onPress={() => handleTrackSelected(track)}>
+    <TouchableOpacity onPress={() => handleTrackSelected(track)}>
       <View style={styles.container}>
         <Image
           source={{ uri: track.artwork }}
@@ -61,14 +79,22 @@ const TrackListItem = ({
           </Text>
           {track.artist && <Text style={styles.artist}>{track.artist}</Text>}
         </View>
-        <MaterialCommunityIcons
-          name="dots-horizontal"
-          size={24}
-          color={colors.icon}
-          style={styles.icon}
+        <TouchableOpacity ref={iconRef} onPress={handleIconPress}>
+          <MaterialCommunityIcons
+            name="dots-horizontal"
+            size={30}
+            color={colors.icon}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+        <TrackOptionsModal
+          visible={modalVisible}
+          position={modalPosition}
+          onClose={closeModal}
+          track={track}
         />
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 
@@ -83,8 +109,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   textContainer: {
-    flex: 1, // Take remaining space
-    marginLeft: 10, // Add margin to separate the image and text
+    flex: 1,
+    marginLeft: 10,
   },
   title: {
     ...defaultStyles.text,
@@ -100,7 +126,7 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
   },
   icon: {
-    marginLeft: "auto", // Push the icon to the right
+    marginLeft: "auto",
     marginRight: 10,
   },
   trackPlayerIconIndicator: {
