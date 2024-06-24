@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 // Import necessary components and libraries
-import { FlatList, View } from "react-native";
+import { View } from "react-native";
 import TrackListItem from "./TrackListItem";
 import { utilsStyles } from "@/styles";
 import { useMemo, useRef } from "react";
@@ -11,6 +11,7 @@ import TrackPlayer, { Track } from "react-native-track-player";
 import { unknownTrackImageUri } from "@/constants/images";
 import { useQueue } from "@/store/queue";
 import { QueueControls } from "./QueueControls";
+import { FlashList } from "@shopify/flash-list";
 
 // This component creates a divider between items in the list
 const ItemDivider = () => (
@@ -41,7 +42,6 @@ const TrackList = ({
   const { activeQueueId, setActiveQueueId } = useQueue();
 
   // Filter tracks based on the search query
-
   const filteredTracks = useMemo(() => {
     if (!searchQuery) {
       return tracks;
@@ -106,8 +106,11 @@ const TrackList = ({
   };
 
   return (
-    <FlatList
+    <FlashList
       data={filteredTracks} // The data to display in the list
+      keyExtractor={(item) => item.url}
+      getItemType={(item) => item.type}
+      estimatedItemSize={filteredTracks.length}
       ListHeaderComponent={
         !hideQueueControls ? (
           <QueueControls tracks={tracks} style={{ paddingBottom: 20 }} />
@@ -119,7 +122,7 @@ const TrackList = ({
       } // Component to display if no tracks are found
       ItemSeparatorComponent={ItemDivider} // Separator component between items
       contentContainerStyle={{
-        gap: 5,
+        paddingVertical: 8,
         paddingBottom: 128,
         paddingHorizontal: screenPadding.horizontal,
       }} // Styling for the content container
