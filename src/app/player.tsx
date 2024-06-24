@@ -18,6 +18,7 @@ import {
   AndroidImageColors,
   IOSImageColors,
 } from "react-native-image-colors/build/types";
+import useTrackPlayerFavorite from "@/hooks/useTrackPlayerFavorite";
 
 const PlayerScreen = () => {
   const activeTrack = useActiveTrack();
@@ -41,9 +42,8 @@ const PlayerScreen = () => {
     : defaultColors;
 
   const { top, bottom } = useSafeAreaInsets();
-  const isFavorite = false;
+  const { isFavorite, toggleFavorite } = useTrackPlayerFavorite();
 
-  const toggleFavorite = () => {};
   if (!activeTrack) {
     return (
       <View style={[defaultStyles.container, { justifyContent: "center" }]}>
