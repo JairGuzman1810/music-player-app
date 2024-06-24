@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -30,20 +31,23 @@ const TrackOptionsModal = ({
   const { activeQueueId } = useQueue();
 
   const handleFavoriteToggle = async () => {
+    onClose();
     toggleTrackFavorite(track);
+    const queue = await TrackPlayer.getQueue();
+
     if (isFavorite) {
-      const queue = await TrackPlayer.getQueue();
-      const trackToRemove = queue.findIndex(
-        // eslint-disable-next-line prettier/prettier
+      const trackToRemoveIndex = queue.findIndex(
         (queueTrack) => queueTrack.url === track.url
       );
-      await TrackPlayer.remove(trackToRemove);
+
+      if (trackToRemoveIndex !== -1) {
+        await TrackPlayer.remove(trackToRemoveIndex);
+      }
     } else {
       if (activeQueueId?.startsWith("favorites")) {
         await TrackPlayer.add(track);
       }
     }
-    onClose();
   };
 
   const handleAddToPlaylist = () => {
