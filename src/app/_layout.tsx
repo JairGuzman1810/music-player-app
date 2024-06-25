@@ -7,6 +7,9 @@ import useSetupTrackPlayer from "@/hooks/useSetupTrackPlayer";
 import { useState, useCallback } from "react";
 import { useLogTrackPlayerState } from "@/hooks/useLogTrackPlayerState";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { colors } from "@/constants/theme";
+import { StackScreenWithSearchBar } from "@/constants/layout";
+import { Platform } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -50,6 +53,22 @@ const App = () => {
   );
 };
 
+const iosHeaderOptions = {
+  ...StackScreenWithSearchBar,
+  headerStyle: {
+    backgroundColor: colors.background,
+  },
+  headerTitle: "Add to playlist",
+  headerTitleStyle: {
+    fontFamily: "Montserrat-Medium",
+    color: colors.text,
+  },
+};
+
+const androidHeaderOptions = {
+  headerShown: false,
+};
+
 const RootNavigation = () => {
   return (
     <Stack>
@@ -62,6 +81,20 @@ const RootNavigation = () => {
           gestureDirection: "vertical",
           animationDuration: 400,
           headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="(modals)/addToPlaylist"
+        options={{
+          ...(Platform.OS === "ios" ? iosHeaderOptions : androidHeaderOptions),
+          presentation: Platform.select({
+            ios: "transparentModal",
+            android: "containedTransparentModal",
+          }),
+          gestureEnabled: true,
+          gestureDirection: "vertical",
+          animationDuration: 100,
+          animation: "slide_from_bottom",
         }}
       />
     </Stack>

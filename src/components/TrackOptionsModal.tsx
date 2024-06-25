@@ -52,7 +52,7 @@ const TrackOptionsModal = ({
 
   const handleAddToPlaylist = () => {
     router.push({
-      pathname: "(modal)/addToPlaylist",
+      pathname: "(modals)/addToPlaylist",
       params: { trackUrl: track.url },
     });
     onClose();
