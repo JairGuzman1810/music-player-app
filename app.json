@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "music-player-app",
+    "name": "Music Player",
     "slug": "music-player-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -24,7 +24,21 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#000"
       },
-      "package": "com.jairguzman18.musicplayerapp"
+      "package": "com.jairguzman18.musicplayerapp",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "music-player-app",
+              "pathPrefix": "/"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

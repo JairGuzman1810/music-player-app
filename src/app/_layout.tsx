@@ -1,19 +1,21 @@
 import { defaultStyles } from "@/styles";
-import { SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import useSetupTrackPlayer from "@/hooks/useSetupTrackPlayer";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useLogTrackPlayerState } from "@/hooks/useLogTrackPlayerState";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { colors } from "@/constants/theme";
 import { StackScreenWithSearchBar } from "@/constants/layout";
-import { Platform } from "react-native";
+import { Linking, Platform } from "react-native";
+import "@/constants/playbackService"; // Import to ensure it's registered
 
 SplashScreen.preventAutoHideAsync();
 
 const App = () => {
+  const router = useRouter();
   const [fontsLoaded, fontError] = useFonts({
     "Montserrat-Regular": require("@/assets/fonts/Montserrat-Regular.ttf"),
     "Montserrat-Bold": require("@/assets/fonts/Montserrat-Bold.ttf"),
@@ -21,23 +23,53 @@ const App = () => {
   });
 
   const [trackPlayerLoaded, setTrackPlayerLoaded] = useState(false);
+  const [appReady, setAppReady] = useState(false);
 
   const handleTrackPlayerLoaded = useCallback(() => {
     setTrackPlayerLoaded(true);
   }, []);
 
+  const handleDeepLink = useCallback(() => {
+    if (appReady) {
+      router.navigate("/");
+    }
+  }, [router, appReady]);
+
+  useEffect(() => {
+    const initializeApp = async () => {
+      // Wait for fonts and TrackPlayer to load
+      if (fontsLoaded && trackPlayerLoaded) {
+        await SplashScreen.hideAsync();
+        setAppReady(true);
+      }
+    };
+
+    initializeApp();
+
+    const linkingSubscription = Linking.addEventListener("url", handleDeepLink);
+
+    Linking.getInitialURL().then((url) => {
+      if (url) {
+        handleDeepLink();
+      }
+    });
+
+    return () => {
+      linkingSubscription.remove();
+    };
+  }, [handleDeepLink, fontsLoaded, trackPlayerLoaded]);
+
   useSetupTrackPlayer({ onLoad: handleTrackPlayerLoaded });
 
   useLogTrackPlayerState();
 
-  const onLayoutRootView = useCallback(async () => {
-    if ((fontsLoaded || fontError) && trackPlayerLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded, fontError, trackPlayerLoaded]);
+  const onLayoutRootView = useCallback(() => {
+    // You can perform any actions here that need to happen after the root view has laid out
+    // Example: analytics tracking, additional initialization
+  }, []);
 
   if ((!fontsLoaded && !fontError) || !trackPlayerLoaded) {
-    return null;
+    return null; // Or you can render a loading indicator here
   }
 
   return (
@@ -72,6 +104,7 @@ const androidHeaderOptions = {
 const RootNavigation = () => {
   return (
     <Stack>
+      {/* Define your stack screens here */}
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen
         name="player"
