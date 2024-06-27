@@ -28,6 +28,12 @@
         <data android:scheme="com.jairguzman18.musicplayerapp"/>
         <data android:scheme="exp+music-player-app"/>
       </intent-filter>
+      <intent-filter android:autoVerify="true" data-generated="true">
+        <action android:name="android.intent.action.VIEW"/>
+        <data android:scheme="https" android:host="music-player-app" android:pathPrefix="/"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+      </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>
   </application>
